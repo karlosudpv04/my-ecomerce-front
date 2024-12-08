@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'getProductos.php',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var tableBody = '';
+                    if (data.length > 0) {
+                        $.each(data, function(index, producto) {
+                            tableBody += '<tr><td>' + producto.nombre + '</td><td>' + producto.codigo + '</td></tr>';
+                        });
+                    } else {
+                        tableBody = '<tr><td colspan="2">No hay resultados</td></tr>';
+                    }
+                    $('#productosTable tbody').html(tableBody);
+                },
+                error: function() {
+                    alert('Error al obtener los datos.');
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1 style="text-align: center;">Productos</h1>
+    <table id="productosTable">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Codigo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="2">Cargando...</td></tr>
+        </tbody>
+    </table>
+</body>
+</html>
